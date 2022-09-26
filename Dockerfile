@@ -1,4 +1,4 @@
-FROM reg.local.liuzp.com/develop/jdk8:v1.0
+FROM registry.cn-shenzhen.aliyuncs.com/develop-liuzp/jdk8:v1.0
 
 MAINTAINER lzp
 
