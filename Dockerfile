@@ -4,4 +4,4 @@ MAINTAINER lzp
 
 ADD target/pipeline-web-0.0.1-SNAPSHOT.jar /app.jar
 
-ENTRYPOINT ["/sbin/tini","--","java","-jar","app.jar"]
+ENTRYPOINT ["java","-jar","app.jar"]
