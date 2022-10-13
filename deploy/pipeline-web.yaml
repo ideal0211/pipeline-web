@@ -36,8 +36,8 @@ spec:
               cpu: 300m
               memory: 500Mi
             requests:
-              cpu: 500m
-              memory: 1000Mi
+              cpu: 300m
+              memory: 500Mi
           volumeMounts:
             - name: host-time
               readOnly: true
