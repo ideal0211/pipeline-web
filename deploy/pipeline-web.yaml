@@ -4,7 +4,7 @@ metadata:
   name: $APP_NAME
   namespace: develop
   labels:
-    app: pipeline-web
+    app: $APP_NAME
 spec:
   replicas: 1
   selector:
@@ -22,13 +22,13 @@ spec:
             type: ''
         - name: volume-configmap
           configMap:
-            name: pipeline-web-config
+            name: $APP_NAME-config
             defaultMode: 420
       containers:
         - name: container-$BUILD_NUMBER
           image: $REMOTO_REGISTRY/$NAMESPACE/$APP_NAME:$VERSION.$BUILD_NUMBER
           ports:
-            - name: http-pipeline
+            - name: http-$APP_NAME
               containerPort: 80
               protocol: TCP
           resources:
@@ -56,19 +56,19 @@ spec:
 kind: Service
 apiVersion: v1
 metadata:
-  name: pipeline-web-svc
+  name: $APP_NAME-svc
   namespace: develop
   labels:
-    app: pipeline-web-svc
+    app: $APP_NAME-svc
 spec:
   ports:
-    - name: http-pipeline-web-svc
+    - name: http-$APP_NAME-svc
       protocol: TCP
       port: 80
       targetPort: 80
 #      nodePort: 32121
   selector:
-    app: pipeline-web
+    app: $APP_NAME
   type: NodePort
   sessionAffinity: None
   externalTrafficPolicy: Cluster
