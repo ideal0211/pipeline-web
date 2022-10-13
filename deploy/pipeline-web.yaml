@@ -28,16 +28,16 @@ spec:
         - name: container-$BUILD_NUMBER
           image: $REMOTO_REGISTRY/$NAMESPACE/$APP_NAME:$VERSION.$BUILD_NUMBER
           ports:
-            - name: http-$APP_NAME
+            - name: http-80
               containerPort: 80
               protocol: TCP
-          resources:
-            limits:
-              cpu: 300m
-              memory: 500Mi
-            requests:
-              cpu: 300m
-              memory: 500Mi
+#          resources:
+#            limits:
+#              cpu: 300m
+#              memory: 500Mi
+#            requests:
+#              cpu: 300m
+#              memory: 500Mi
           volumeMounts:
             - name: host-time
               readOnly: true
