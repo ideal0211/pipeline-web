@@ -5,9 +5,6 @@ metadata:
   namespace: develop
   labels:
     app: pipeline-web
-  annotations:
-    deployment.kubernetes.io/revision: '2'
-    kubesphere.io/creator: admin
 spec:
   replicas: 1
   selector:
@@ -15,18 +12,15 @@ spec:
       app: $APP_NAME
   template:
     metadata:
-      creationTimestamp: null
       labels:
         app: $APP_NAME
-      annotations:
-        logging.kubesphere.io/logsidecar-config: '{}'
     spec:
       volumes:
         - name: host-time
           hostPath:
             path: /etc/localtime
             type: ''
-        - name: volume-sedezy
+        - name: volume-configMap
           configMap:
             name: pipeline-web-config
             defaultMode: 420
@@ -38,6 +32,9 @@ spec:
               containerPort: 80
               protocol: TCP
           resources:
+            limits:
+              cpu: 300m
+              memory: 500Mi
             requests:
               cpu: 500m
               memory: 1000Mi
@@ -45,7 +42,7 @@ spec:
             - name: host-time
               readOnly: true
               mountPath: /etc/localtime
-            - name: volume-sedezy
+            - name: volume-configMap
               readOnly: true
               mountPath: /config
           terminationMessagePath: /dev/termination-log
@@ -54,19 +51,6 @@ spec:
       restartPolicy: Always
       terminationGracePeriodSeconds: 30
       dnsPolicy: ClusterFirst
-      nodeSelector:
-        kubernetes.io/hostname: localhost-15
-      serviceAccountName: default
-      serviceAccount: default
-      securityContext: {}
-      schedulerName: default-scheduler
-  strategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxUnavailable: 25%
-      maxSurge: 25%
-  revisionHistoryLimit: 10
-  progressDeadlineSeconds: 600
 
 ---
 kind: Service
@@ -82,7 +66,7 @@ spec:
       protocol: TCP
       port: 80
       targetPort: 80
-      nodePort: 32121
+#      nodePort: 32121
   selector:
     app: pipeline-web
   type: NodePort
