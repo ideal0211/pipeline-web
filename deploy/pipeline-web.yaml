@@ -67,3 +67,27 @@ spec:
       maxSurge: 25%
   revisionHistoryLimit: 10
   progressDeadlineSeconds: 600
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: pipeline-web-svc
+  namespace: develop
+  labels:
+    app: pipeline-web-svc
+spec:
+  ports:
+    - name: http-pipeline-web-svc
+      protocol: TCP
+      port: 80
+      targetPort: 80
+      nodePort: 32121
+  selector:
+    app: pipeline-web
+  type: NodePort
+  sessionAffinity: None
+  externalTrafficPolicy: Cluster
+  ipFamilies:
+    - IPv4
+  ipFamilyPolicy: SingleStack
