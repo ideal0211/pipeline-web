@@ -20,7 +20,7 @@ spec:
           hostPath:
             path: /etc/localtime
             type: ''
-        - name: volume-configMap
+        - name: volume-configmap
           configMap:
             name: pipeline-web-config
             defaultMode: 420
@@ -42,7 +42,7 @@ spec:
             - name: host-time
               readOnly: true
               mountPath: /etc/localtime
-            - name: volume-configMap
+            - name: volume-configmap
               readOnly: true
               mountPath: /config
           terminationMessagePath: /dev/termination-log
