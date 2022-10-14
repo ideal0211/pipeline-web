@@ -28,6 +28,7 @@ spec:
       containers:
         - name: container-$BUILD_NUMBER
           image: $REMOTO_REGISTRY/$NAMESPACE/$APP_NAME:$VERSION.$BUILD_NUMBER
+#          ports.name不能超过15个字符
           ports:
             - name: http-80
               containerPort: 80
