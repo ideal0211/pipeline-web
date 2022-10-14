@@ -41,7 +41,7 @@ spec:
 #              cpu: 300m
 #              memory: 500Mi
           volumeMounts:
-            - name: host-time
+            - name: volume-localtime
               readOnly: true
               mountPath: /etc/localtime
             - name: volume-configmap
