@@ -17,7 +17,7 @@ spec:
     spec:
 #      volumes.name只能是小写
       volumes:
-        - name: host-time
+        - name: volume-localtime
           hostPath:
             path: /etc/localtime
             type: ''
