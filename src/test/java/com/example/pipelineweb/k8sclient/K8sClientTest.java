@@ -6,6 +6,7 @@ import io.kubernetes.client.openapi.ApiException;
 import io.kubernetes.client.openapi.Configuration;
 import io.kubernetes.client.openapi.apis.AppsV1Api;
 import io.kubernetes.client.openapi.apis.CoreV1Api;
+import io.kubernetes.client.openapi.apis.NetworkingV1Api;
 import io.kubernetes.client.openapi.models.*;
 import io.kubernetes.client.util.ClientBuilder;
 import io.kubernetes.client.util.KubeConfig;
@@ -23,6 +24,36 @@ public class K8sClientTest {
         ApiClient client = ClientBuilder.kubeconfig(KubeConfig.loadKubeConfig(new FileReader(path))).build();
         Configuration.setDefaultApiClient(client);
         log.info("init k8s client config...");
+    }
+
+
+    @Test
+    public void buildIngressTest() throws ApiException {
+        NetworkingV1Api net = new NetworkingV1Api();
+        V1Ingress ingress = new V1IngressBuilder()
+//                .withKind("Ingress")
+//                .withApiVersion("networking.k8s.io/v1")
+                .withMetadata(new V1ObjectMetaBuilder().withName("pipeline-web-ingress").withNamespace("develop").build())
+                .withSpec(new V1IngressSpecBuilder()
+                        .addToRules(new V1IngressRuleBuilder()
+                                .withHost("lb.kubesphere.local")
+                                .withHttp(new V1HTTPIngressRuleValueBuilder()
+                                        .addToPaths(new V1HTTPIngressPathBuilder()
+                                                .withPath("/hi")
+                                                .withPathType("ImplementationSpecific")
+                                                .withBackend(new V1IngressBackendBuilder()
+                                                        .withService(new V1IngressServiceBackendBuilder()
+                                                                .withName("pipeline-web-svc")
+                                                                .withPort(new V1ServiceBackendPortBuilder().withNumber(80).build())
+                                                                .build())
+                                                        .build())
+                                                .build())
+                                        .build())
+                                .build())
+                        .build())
+                .build();
+        V1Ingress v1Ingress = net.createNamespacedIngress("develop", ingress, null, null, null, null);
+        log.info("build k8s V1Ingress：{}", v1Ingress);
     }
 
     @Test

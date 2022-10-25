@@ -79,3 +79,22 @@ spec:
   ipFamilies:
     - IPv4
   ipFamilyPolicy: SingleStack
+
+#---
+#kind: Ingress
+#apiVersion: networking.k8s.io/v1
+#metadata:
+#  name: $APP_NAME-ingress
+#  namespace: develop
+#spec:
+#  rules:
+#    - host: lb.kubesphere.local
+#      http:
+#        paths:
+#          - path: /hi
+#            pathType: ImplementationSpecific
+#            backend:
+#              service:
+#                name: $APP_NAME-svc
+#                port:
+#                  number: 80
